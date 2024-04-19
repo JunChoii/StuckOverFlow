@@ -1,38 +1,24 @@
 import { Hono } from "hono";
 import { handle } from "hono/aws-lambda";
 
+import { questions as questionsTable } from "@leetCodeClone/core/db/schema/questions";
+import { db } from "@leetCodeClone/core/db";
+
 const app = new Hono();
 
-const fakeQuestions = [
-  {
-    id: 1,
-    title: "What is leetCodeClone?",
-    body: "I heard it's a clone of leetcode",
-  },
-  {
-    id: 2,
-    title: "What is Hono?",
-    body: "It's a web framework",
-  },
-  {
-    id: 3,
-    title: "What is SST?",
-    body: "It's a serverless stack",
-  },
-];
-
-app.get("/questions", (c) => {
-  return c.json({ questions: fakeQuestions });
+app.get("/questions", async (c) => {
+  const questions = await db.select().from(questionsTable);
+  return c.json({ questions });
 });
 
 app.post("/questions", async (c) => {
   const body = await c.req.json();
-  const question = body.question;
-  fakeQuestions.push({
-    ...question,
-    id: (fakeQuestions.length + 1).toString(),
-  });
-  return c.json({ questions: fakeQuestions });
+  const question = { ...body.question, userId: "dummy-user-id"};
+  const newQuestion = await db
+    .insert(questionsTable)
+    .values(question)
+    .returning();
+  return c.json({ questions: newQuestion });
 });
 
 export const handler = handle(app);
