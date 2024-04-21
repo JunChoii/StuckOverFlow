@@ -11,10 +11,8 @@ const app = new Hono();
 app.get("/questions", async (c) => {
   const userId = c.var.userId;
   console.log(userId);
-  const questions = await db
-    .select()
-    .from(questionsTable).execute();
-    // .where(eq(questionsTable.userId, userId));
+  const questions = await db.select().from(questionsTable).execute();
+  // .where(eq(questionsTable.userId, userId));
   return c.json({ questions });
 });
 
@@ -32,9 +30,13 @@ app.get("/questions", async (c) => {
 
 app.post("/questions", async (c) => {
   const body = await c.req.json();
-  const questions = body.questions;
-  const newQuestions = await db.insert(questionsTable).values(questions).returning();
-  return c.json({ quiz: newQuestions });
+  const question = { ...body.question, userId: "dummy-user-id" };
+  console.log("!!!!!!!!!!!!!!!!!!!!!!", question);
+  const newQuestions = await db
+    .insert(questionsTable)
+    .values(question)
+    .returning();
+  return c.json({ question: newQuestions });
 });
 
 export const handler = handle(app);

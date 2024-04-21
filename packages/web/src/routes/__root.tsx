@@ -23,33 +23,39 @@ function RootLayout() {
           LeetCodeClone
         </Link>
         <div className="flex gap-x-4 mt-5">
-          <Link
-            to="/postQuestion"
-            className="bg-slate-500 text-white px-4 py-2 rounded-xl"
-          >
-            Post Question
-          </Link>
           {isAuthenticated && (
-          <>
-            <Link
-              to="/profile"
-              className="bg-slate-500 text-white px-4 py-2 rounded-xl"
-            >
-              Profile
-            </Link>
-            <Link
-              to="/profile"
-              className="bg-slate-500 text-white px-4 py-2 rounded-xl"
-            >
-              My Questions
-            </Link>
-            <Link
-              to="/profile"
-              className="bg-slate-500 text-white px-4 py-2 rounded-xl"
-            >
-              My Answers
-            </Link>
-          </>
+            <>
+              <Link
+                to="/"
+                className="bg-slate-500 text-white px-4 py-2 rounded-xl"
+              >
+                Home
+              </Link>
+              <Link
+                to="/postQuestion"
+                className="bg-slate-500 text-white px-4 py-2 rounded-xl"
+              >
+                Post Question
+              </Link>
+              <Link
+                to="/profile"
+                className="bg-slate-500 text-white px-4 py-2 rounded-xl"
+              >
+                Profile
+              </Link>
+              <Link
+                to="/profile"
+                className="bg-slate-500 text-white px-4 py-2 rounded-xl"
+              >
+                My Questions
+              </Link>
+              <Link
+                to="/profile"
+                className="bg-slate-500 text-white px-4 py-2 rounded-xl"
+              >
+                My Answers
+              </Link>
+            </>
           )}
         </div>
       </div>

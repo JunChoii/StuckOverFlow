@@ -1,19 +1,16 @@
-
 import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
 import { useState, useEffect } from "react";
-import { createFileRoute, useNavigate,  } from "@tanstack/react-router";
-
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_authenticated/")({
   component: HomePage,
 });
 
- type Question = {
-    id: number;
-    title: string;
-    body: string;
-  };
-
+type Question = {
+  id: number;
+  title: string;
+  body: string;
+};
 
 function HomePage() {
   const { isAuthenticated } = useKindeAuth();
@@ -21,13 +18,12 @@ function HomePage() {
   const navigate = useNavigate();
   const [questions, setQuestions] = useState<Question[]>([]);
 
-   useEffect(() => {
+  useEffect(() => {
     if (!isAuthenticated) {
       // @ts-ignore
       navigate({ to: "/_authenticated/" });
     }
   }, [isAuthenticated, navigate]);
-
 
   // useEffect(() => {
   //   async function getAllQuestions() {
@@ -49,23 +45,26 @@ function HomePage() {
   //       throw new Error("Failed to fetch questions");
   //     }
   //     return res.json();
-  //   } 
+  //   }
   //   getAllQuestions();
   //   }
   // }, []);
 
-    useEffect(() => {
+  useEffect(() => {
     async function getAllQuestions() {
       const token = await getToken();
       if (!token) {
         throw new Error("No token found");
       }
       try {
-        const res = await fetch(import.meta.env.VITE_APP_API_URL + "/questions", {
-          headers: {
-            Authorization: token,
-          },
-        });
+        const res = await fetch(
+          import.meta.env.VITE_APP_API_URL + "/questions",
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        );
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
@@ -78,10 +77,10 @@ function HomePage() {
         //     body: question.body,
         //   };
         // });
-        
-        console.log(data.questions)
+
+        console.log(data.questions);
         const questionsInData: Question[] = data.questions;
-        
+
         setQuestions(questionsInData);
       } catch (error) {
         console.error("Failed to fetch:", error);
@@ -89,14 +88,12 @@ function HomePage() {
     }
     getAllQuestions();
   }, []);
-  
 
   // const { isLoading, data, error } = useQuery({
   //   queryKey: ["questions"],
   //   queryFn: getAllQuestions(),
   // });
 
- 
   // console.log(data);
   return (
     <div className="bg-slate-500 text-white rounded-xl h-screen">
