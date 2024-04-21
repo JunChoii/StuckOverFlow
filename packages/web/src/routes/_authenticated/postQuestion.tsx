@@ -7,7 +7,7 @@ export const Route = createFileRoute("/_authenticated/postQuestion")({
 });
 
 type Question = {
-  id: number;
+  // id: number;
   title: string;
   body: string;
   // imageUrl: string;
@@ -17,7 +17,7 @@ function PostQuestion() {
   const { getToken } = useKindeAuth();
   const navigate = useNavigate();
   const [newQuestion, setNewQuestion] = useState<Question>({
-    id: 0,
+    // id: 0,
     title: "",
     body: "",
     // imageUrl: "",
